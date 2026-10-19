@@ -89,3 +89,9 @@ echo
 ok "Installation complete"
 echo "   Skill id: $SKILL_ID"
 echo "   Update:   git -C $INSTALL_DIR pull"
+echo
+echo "   Attribution: the evaluation framework 'Ley del Rompecabezas' and the AQP/CCA"
+echo "   method reproduced in the skill references are the work of Dra. Rosario Martinez"
+echo "   and are used with explicit attribution. This distribution implies no"
+echo "   endorsement, agreement or collaboration with the author."
+echo "   See: https://github.com/bialyLT/comite-evaluador-skill#licencia"

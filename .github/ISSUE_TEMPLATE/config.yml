@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discusión sobre el marco metodológico
+    url: https://github.com/bialyLT/comite-evaluador-skill/discussions
+    about: Cambios al framework de evaluación de la Dra. Rosario Martínez requieren acuerdo previo con la autora.
+  - name: Documentación de OpenCode sobre skills
+    url: https://opencode.ai/v2/docs/skills/
+    about: Formato de SKILL.md, descubrimiento, precedencia y catálogos HTTP.

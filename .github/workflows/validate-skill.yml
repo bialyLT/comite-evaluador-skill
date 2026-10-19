@@ -1,0 +1,42 @@
+name: Validate skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Skill contract validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate skill structure and contract
+        run: bash scripts/validate-skill.sh
+
+      - name: Check installer syntax
+        run: bash -n install.sh
+
+      - name: Check installer references a resolvable repository
+        run: |
+          set -euo pipefail
+          url="$(grep -oE 'https://github.com/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+\.git' install.sh | head -1)"
+          if [ -z "$url" ]; then
+            echo "::error::no repository URL found in install.sh"
+            exit 1
+          fi
+          echo "Installer points to: $url"
+
+      - name: Verify README documents every install path
+        run: |
+          set -euo pipefail
+          for section in "Opción A" "Opción B" "Opción C"; do
+            grep -qF "$section" README.md || { echo "::error::README missing $section"; exit 1; }
+          done

@@ -100,7 +100,7 @@ bash /tmp/comite-evaluador/install.sh
 rm -rf /tmp/comite-evaluador
 ```
 
-El instalador clona el repo, agrega la entrada `skills` a `~/.config/opencode/opencode.jsonc` si no existe, y verifica que la skill quede registrada.
+El instalador clona el repo, agrega la entrada `skills` a `~/.config/opencode/opencode.jsonc` si no existe, y verifica que la skill quede registrada. Al finalizar imprime la atribución del marco metodológico.
 
 ### Instalación por proyecto
 
@@ -137,8 +137,14 @@ Ejemplos que funcionan tal cual:
 ```
 comite-evaluador-skill/
 ├── README.md
+├── AGENTS.md                 ← guía para agentes de IA que trabajen en el repo
+├── CONTRIBUTING.md           ← cómo contribuir
+├── CODE_OF_CONDUCT.md
+├── CHANGELOG.md
 ├── LICENSE
 ├── install.sh
+├── scripts/
+│   └── validate-skill.sh     ← 23 chequeos de contrato (lo corre la CI)
 └── skills/
     └── comite-evaluador/
         ├── SKILL.md
@@ -151,6 +157,20 @@ comite-evaluador-skill/
 ```
 
 `SKILL.md` es el contrato de runtime. Los `references/` contienen el detalle largo: mandatos de cada rol, protocolo del ciclo, bancos de preguntas por rol y tipo de solicitud, el marco metodológico completo y los formatos de salida.
+
+## Contribuir
+
+Leé [CONTRIBUTING.md](CONTRIBUTING.md) y [AGENTS.md](AGENTS.md). El flujo básico:
+
+```bash
+git clone https://github.com/bialyLT/comite-evaluador-skill.git
+cd comite-evaluador-skill
+bash scripts/validate-skill.sh      # debe dar 23/23
+```
+
+La CI valida el contrato de la skill en cada push y PR: estructura, frontmatter, secciones obligatorias, resolución de links y presupuesto del cuerpo.
+
+Si vas a tocar `references/rosario-martinez-framework.md`, necesitás el acuerdo explícito de la Dra. Rosario Martínez.
 
 ## Licencia
 
