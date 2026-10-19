@@ -73,22 +73,36 @@ else
 fi
 
 # --- 3. Verify ---------------------------------------------------------------
-if command -v opencode >/dev/null 2>&1; then
-  info "Verifying discovery"
-  if opencode run "list the available skills" 2>/dev/null | grep -qi "$SKILL_ID"; then
-    ok "skill '$SKILL_ID' is discoverable"
-  else
-    warn "could not confirm discovery automatically. Open a new session and run:"
-    warn "    opencode run \"list the available skills\""
-  fi
+# Deliberately structural only. Launching `opencode run` here would spawn a full
+# agent session, which is slow, costs tokens and can hang the installer.
+info "Verifying installation"
+if [ -f "$INSTALL_DIR/skills/$SKILL_ID/SKILL.md" ]; then
+  ok "skill definition at skills/$SKILL_ID/SKILL.md"
 else
-  warn "opencode CLI not found on PATH; skipping verification"
+  die "skill definition missing after install"
+fi
+
+refs="$(find "$INSTALL_DIR/skills/$SKILL_ID/references" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
+if [ "$refs" -ge 1 ]; then
+  ok "reference files present: $refs"
+else
+  warn "no reference files found; the skill may load without its detail files"
+fi
+
+if command -v opencode >/dev/null 2>&1; then
+  ok "opencode CLI detected on PATH"
+else
+  warn "opencode CLI not found on PATH; the skill will load once OpenCode is installed"
 fi
 
 echo
 ok "Installation complete"
 echo "   Skill id: $SKILL_ID"
 echo "   Update:   git -C $INSTALL_DIR pull"
+echo
+echo "   Next: open a NEW OpenCode session and run"
+echo "     opencode run \"list the available skills\""
+echo "   to confirm the skill is discoverable."
 echo
 echo "   Attribution: the evaluation framework 'Ley del Rompecabezas' and the AQP/CCA"
 echo "   method reproduced in the skill references are the work of Dra. Rosario Martinez"
